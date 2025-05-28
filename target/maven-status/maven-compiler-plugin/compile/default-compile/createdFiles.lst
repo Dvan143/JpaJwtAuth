@@ -1,0 +1,10 @@
+org\example\springdatajpaauth\db\UserRepository.class
+org\example\springdatajpaauth\db\security\SpringConfig.class
+org\example\springdatajpaauth\controllers\FrontController.class
+org\example\springdatajpaauth\db\UserService.class
+org\example\springdatajpaauth\db\CustomUserDetailsService.class
+org\example\springdatajpaauth\db\security\JwtService.class
+org\example\springdatajpaauth\controllers\RestApiController.class
+org\example\springdatajpaauth\db\security\JwtFilter.class
+org\example\springdatajpaauth\db\UserClass.class
+org\example\springdatajpaauth\SpringDataJpaAuthApplication.class
