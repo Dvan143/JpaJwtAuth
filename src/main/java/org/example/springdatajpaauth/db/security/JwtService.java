@@ -9,12 +9,12 @@ import java.util.Date;
 
 @Component
 public class JwtService {
-    private final String accessSecret = "DKSA,mXCZ<nfdNKJZFKJNDKSDuEIRWHIU978234788924338";
-    private final String refreshSecret = "DKSA,mXCZ<nfdNKJZFKJNDKSDuEIRWHIU978234788924338";
+    private final String accessSecret = "DKSA,mXCZ<,./,/.,f.sdf.dsf,e.,rwer.,vcxmn,#$@*7G";
+    private final String refreshSecret = "DKSA,mXCZ</.,';;/.,./[][]]]3342gfdGFMmgdkflmgrFG";
 
     // Access
     public String generateAccessToken(String username){
-        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis()+1000*60*60)).signWith(getAccessKey()).compact();
+        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis()+1000*60*15)).signWith(getAccessKey()).compact();
     }
     public String extractUsernameFromAccessToken(String token){
         return Jwts.parser().verifyWith(getAccessKey()).build().parseSignedClaims(token).getPayload().getSubject();
@@ -26,7 +26,7 @@ public class JwtService {
     }
     // Refresh
     public String generateRefreshToken(String username){
-        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis()+1000*60*60)).signWith(getRefreshKey()).compact();
+        return Jwts.builder().subject(username).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis()+1000*60*60*24*2)).signWith(getRefreshKey()).compact();
     }
     public String extractUsernameFromRefreshToken(String token){
         return Jwts.parser().verifyWith(getRefreshKey()).build().parseSignedClaims(token).getPayload().getSubject();

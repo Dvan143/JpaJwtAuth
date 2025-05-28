@@ -1,9 +1,11 @@
-C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\controllers\FrontController.java
-C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\controllers\RestApiController.java
+C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\controllers\ApiController.java
+C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\controllers\ExceptionController.java
+C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\controllers\ViewController.java
+C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\AbstractUserBody.java
 C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\CustomUserDetailsService.java
 C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\security\JwtFilter.java
 C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\security\JwtService.java
-C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\security\SpringConfig.java
+C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\security\SecurityConfig.java
 C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\UserClass.java
 C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\UserRepository.java
 C:\Users\Desktop\IdeaProjects\goool\SpringDataJpaAuth\src\main\java\org\example\springdatajpaauth\db\UserService.java

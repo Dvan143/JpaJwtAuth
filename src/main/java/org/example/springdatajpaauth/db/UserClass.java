@@ -34,7 +34,6 @@ public class UserClass {
     public UserClass(String username, String password){
         this.username = username;
         this.password = password;
-        this.role = "user";
     }
     public UserClass(String username, String password, String role){
         this.username = username;

@@ -1,0 +1,31 @@
+-------------------------------------------------------------------------------
+Test set: org.example.springdatajpaauth.db.JwtServiceTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.021 s <<< FAILURE! -- in org.example.springdatajpaauth.db.JwtServiceTest
+org.example.springdatajpaauth.db.JwtServiceTest.shouldTokenBeNotNull -- Time elapsed: 0.002 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "org.example.springdatajpaauth.db.security.JwtService.generateAccessToken(String)" because "this.jwtService" is null
+	at org.example.springdatajpaauth.db.JwtServiceTest.<init>(JwtServiceTest.java:21)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+org.example.springdatajpaauth.db.JwtServiceTest.shouldGenerateValidUsername -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "org.example.springdatajpaauth.db.security.JwtService.generateAccessToken(String)" because "this.jwtService" is null
+	at org.example.springdatajpaauth.db.JwtServiceTest.<init>(JwtServiceTest.java:21)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+
+org.example.springdatajpaauth.db.JwtServiceTest.shouldGenerateValidToken -- Time elapsed: 0.001 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "org.example.springdatajpaauth.db.security.JwtService.generateAccessToken(String)" because "this.jwtService" is null
+	at org.example.springdatajpaauth.db.JwtServiceTest.<init>(JwtServiceTest.java:21)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+

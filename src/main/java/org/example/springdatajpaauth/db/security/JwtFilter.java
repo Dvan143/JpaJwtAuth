@@ -36,17 +36,24 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         for(Cookie cookie: cookies){
-            if(cookie.getName().equals("AccessToken")) token = cookie.getValue();
+            if(cookie.getName().equals("RefreshToken")) token = cookie.getValue();
         }
-        username = jwtService.extractUsernameFromAccessToken(token);
 
-        System.out.println(jwtService.isAccessTokenValid(token,username));
-
-        if(token == null || !jwtService.isAccessTokenValid(token,username)){
+        if(token==null){
             filterChain.doFilter(request,response);
+            return;
         }
 
-        if(username!=null || SecurityContextHolder.getContext().getAuthentication()==null){
+        username = jwtService.extractUsernameFromRefreshToken(token);
+
+        System.out.println(jwtService.isRefreshTokenValid(token,username));
+
+        if(!jwtService.isRefreshTokenValid(token,username)){
+            filterChain.doFilter(request,response);
+            return;
+        }
+
+        if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
