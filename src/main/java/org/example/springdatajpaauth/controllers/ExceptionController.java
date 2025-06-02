@@ -12,8 +12,8 @@ public class ExceptionController {
     public ResponseEntity authExcept(){
         return new ResponseEntity<>("Wrong username or password", HttpStatus.UNAUTHORIZED);
     }
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity except(){
-        return new ResponseEntity("Anything was wrong",HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity except(){
+//        return new ResponseEntity("Something was wrong.",HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }

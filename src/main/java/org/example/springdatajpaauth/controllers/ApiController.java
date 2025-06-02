@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.example.springdatajpaauth.db.AbstractUserBody;
 import org.example.springdatajpaauth.db.CustomUserDetailsService;
 import org.example.springdatajpaauth.db.UserClass;
+import org.example.springdatajpaauth.db.UserService;
 import org.example.springdatajpaauth.db.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 public class ApiController {
     @Autowired
@@ -34,34 +37,37 @@ public class ApiController {
     JwtService jwtService;
     @Autowired
     PasswordEncoder encoder;
+    @Autowired
+    UserService userService;
+
     @PostMapping("/login")
-    public ResponseEntity login(HttpServletResponse response, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password){
-        try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username,password));
-            String token = jwtService.generateRefreshToken(username);
+    public ResponseEntity login(HttpServletResponse response, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            String accessToken = jwtService.generateAccessToken(username);
 
-            Cookie cookie = new Cookie("RefreshToken", null);
-            cookie.setHttpOnly(true);
+            Cookie cookie = new Cookie("Token", accessToken);
             cookie.setPath("/");
-            cookie.setMaxAge(60*60*24*2); // Two days
-
-            cookie.setValue(token);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setMaxAge(60 * 60 * 24 * 7); // Seven days
             response.addCookie(cookie);
-
-            return ResponseEntity.ok("");
+            response.sendRedirect("/");
+            return new ResponseEntity("Logined",HttpStatus.OK);
         } catch (AuthenticationException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
-    // For AccessToken in future
-//   @PostMapping("/api/getRefreshToken")
-//    public ResponseEntity getRefreshToken(HttpServletResponse response, @Valid @RequestBody AbstractUserBody user){
-//        try{
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword()));
-//            String token = jwtService.generateRefreshToken(user.getUsername());
-//            return ResponseEntity.status(HttpStatus.OK).body(token);
-//        } catch (AuthenticationException ex) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username or password is incorrect");
-//        }
-//   }
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "confirmPassword") String confirmPassword) {
+        if(!password.equals(confirmPassword)) return new ResponseEntity("Passwords are not same",HttpStatus.INTERNAL_SERVER_ERROR);
+        if(userService.existsByUsername(username)) return new ResponseEntity<>("Entered username is exists",HttpStatus.CONFLICT);
+
+        UserClass user = new UserClass(username, password, "user");
+        userService.saveUser(user);
+
+        return new ResponseEntity("User created",HttpStatus.OK);
+    }
 }

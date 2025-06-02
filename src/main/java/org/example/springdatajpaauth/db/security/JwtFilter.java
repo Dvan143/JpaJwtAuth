@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.springdatajpaauth.db.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,34 +25,21 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        String username = null;
         String token = null;
-
+        String username = null;
+        Cookie[] cookies = request.getCookies();
         if(cookies==null){
             filterChain.doFilter(request,response);
             return;
         }
-
         for(Cookie cookie: cookies){
-            if(cookie.getName().equals("RefreshToken")) token = cookie.getValue();
+            if(cookie.getName().equals("Token")) token = cookie.getValue();
         }
-
         if(token==null){
             filterChain.doFilter(request,response);
-            return;
         }
-
-        username = jwtService.extractUsernameFromRefreshToken(token);
-
-        System.out.println(jwtService.isRefreshTokenValid(token,username));
-
-        if(!jwtService.isRefreshTokenValid(token,username)){
-            filterChain.doFilter(request,response);
-            return;
-        }
-
-        if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
+        username = jwtService.extractUsernameFromAccessToken(token);
+        if(jwtService.isAccessTokenValid(token,username) && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
