@@ -18,10 +18,12 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login","/register","/api/getRefreshToken","/actuator/**").permitAll()
+                        .requestMatchers("/login","/register","/").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin(form -> form.disable())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint((request, response, authException) -> {response.sendRedirect("/login");}))
                 .build();
     }
     @Bean
