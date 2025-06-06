@@ -1,27 +1,20 @@
 package org.example.springdatajpaauth.controllers;
 
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
-import org.example.springdatajpaauth.db.AbstractUserBody;
 import org.example.springdatajpaauth.db.CustomUserDetailsService;
 import org.example.springdatajpaauth.db.UserClass;
 import org.example.springdatajpaauth.db.UserService;
 import org.example.springdatajpaauth.db.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,12 +54,18 @@ public class ApiController {
         }
     }
     @PostMapping("/register")
-    public ResponseEntity register(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "confirmPassword") String confirmPassword) {
+    public ResponseEntity register(HttpServletResponse response, @RequestParam(name = "username") String username, @RequestParam(name = "password") String password, @RequestParam(name = "confirmPassword") String confirmPassword) throws IOException {
         if(!password.equals(confirmPassword)) return new ResponseEntity("Passwords are not same",HttpStatus.INTERNAL_SERVER_ERROR);
         if(userService.existsByUsername(username)) return new ResponseEntity<>("Entered username is exists",HttpStatus.CONFLICT);
 
         UserClass user = new UserClass(username, password, "user");
         userService.saveUser(user);
+
+        Cookie cookie = new Cookie("Token", jwtService.generateAccessToken(username));
+        response.addCookie(cookie);
+        response.sendRedirect("/");
+
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username,password));
 
         return new ResponseEntity("User created",HttpStatus.OK);
     }
